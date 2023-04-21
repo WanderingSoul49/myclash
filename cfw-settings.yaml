@@ -27,6 +27,7 @@ profileParsersText: >
             proxies:
               - URL-TEST
               - LOAD-BALANCE
+              - CHATGPT
               - SELECT
               - DIRECT
 
@@ -58,10 +59,25 @@ profileParsersText: >
           - name: SELECT
             type: select
 
+          # Special Custom ====> start
+          - name: URL-TEST-GPT
+            type: url-test
+            url: http://www.gstatic.com/generate_204
+            interval: 300
+            lazy: true
+            tolerance: 50
+
+          - name: CHATGPT 
+            type: select
+            proxies:
+              - URL-TEST-GPT
+          # Special Custom ====> end
+
         commands:
           - proxy-groups.(URL-TEST).proxies=[]proxyNames
           - proxy-groups.(LOAD-BALANCE).proxies=[]proxyNames
           - proxy-groups.(SELECT).proxies=[]proxyNames
+          - proxy-groups.(URL-TEST-GPT).proxies=[]proxyNames|^(.*)(中转台湾)(.*)$
 
           # 一些可能用到的正则过滤节点示例，使分组更细致
           # []proxyNames|a                         # 包含a

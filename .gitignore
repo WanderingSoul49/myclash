@@ -3,3 +3,4 @@ logs/**
 providers/**
 cache.db
 profiles/**
+config.yaml
