@@ -1,0 +1,5 @@
+service/clash-core-service
+logs/**
+providers/**
+cache.db
+profiles/**
