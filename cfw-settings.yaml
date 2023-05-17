@@ -27,7 +27,6 @@ profileParsersText: >
             proxies:
               - URL-TEST
               - LOAD-BALANCE
-              - CHATGPT
               - SELECT
               - DIRECT
 
@@ -66,18 +65,13 @@ profileParsersText: >
             interval: 300
             lazy: true
             tolerance: 50
-
-          - name: CHATGPT 
-            type: select
-            proxies:
-              - URL-TEST-GPT
           # Special Custom ====> end
 
         commands:
           - proxy-groups.(URL-TEST).proxies=[]proxyNames
           - proxy-groups.(LOAD-BALANCE).proxies=[]proxyNames
           - proxy-groups.(SELECT).proxies=[]proxyNames
-          - proxy-groups.(URL-TEST-GPT).proxies=[]proxyNames|^(.*)(中转台湾)(.*)$
+          - proxy-groups.(URL-TEST-GPT).proxies=[]proxyNames|^(.*)(中转新加坡|中转台湾)(.*)$
 
           # 一些可能用到的正则过滤节点示例，使分组更细致
           # []proxyNames|a                         # 包含a
@@ -87,7 +81,9 @@ profileParsersText: >
           # []proxyNames|^((?!b|c).)*a((?!b|c).)*$ # 包含a且不包含b或c
 
         prepend-rules:
-          - DOMAIN-SUFFIX,bing.com,PROXY
+          - DOMAIN-SUFFIX,discord.com,URL-TEST-GPT
+          - DOMAIN-SUFFIX,bing.com,URL-TEST-GPT
+          - DOMAIN-SUFFIX,openai.com,URL-TEST-GPT
           - RULE-SET,applications,DIRECT
           - DOMAIN,clash.razord.top,DIRECT
           - DOMAIN,yacd.haishan.me,DIRECT
