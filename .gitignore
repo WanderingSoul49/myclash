@@ -6,3 +6,4 @@ profiles/**
 config.yaml
 Country.mmdb
 cfw-settings.yaml
+wintun.dll
