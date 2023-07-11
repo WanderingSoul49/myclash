@@ -18,8 +18,8 @@ module.exports.parse = async (
   const proxyGroups = [];
 
   // 给 proxy-groups 添加一个策略组，过滤掉带有特定字样的节点
-  const notIncludedFully = ["德国-15"];
-  const notIncludedPartly = [
+  const notIncludedFullyMatch = ["德国-15"];
+  const notIncludedPartlyMatch = [
     "香港",
     "日本",
     "圣何塞",
@@ -29,19 +29,22 @@ module.exports.parse = async (
     "春川",
   ];
   // have the highest priority. if onlyIncluded is not none, then just use the node of onlyIncluded
-  const onlyIncluded = ["新加坡"];
+  const onlyIncludedFullyMatch = ["新加坡"];
+  const onlyIncludedPartlyMatch = ["新加坡"];
   // the filter result array
   let filteredProxies4AI = [];
   // judge whether the onluInclude is empty by length.
-  if (onlyIncluded.length > 0) {
+  if (onlyIncludedFullyMatch.length > 0 || onlyIncludedPartlyMatch.length > 0) {
     filteredProxies4AI = proxies.filter(
-      (proxy) => onlyIncluded.indexOf(proxy) !== -1
+      (proxy) =>
+        onlyIncludedFullyMatch.indexOf(proxy) >= 0 ||
+        onlyIncludedPartlyMatch.some((keyword) => proxy.includes(keyword))
     );
   } else {
     filteredProxies4AI = proxies.filter(
       (proxy) =>
-        notIncludedFully.indexOf(proxy) === -1 &&
-        notIncludedPartly.every((keyword) => !proxy.includes(keyword))
+        notIncludedFullyMatch.indexOf(proxy) === -1 &&
+        notIncludedPartlyMatch.every((keyword) => !proxy.includes(keyword))
     );
   }
   console.log("The filter result is ", filteredProxies4AI);
