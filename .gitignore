@@ -4,3 +4,5 @@ providers/**
 cache.db
 profiles/**
 config.yaml
+Country.mmdb
+cfw-settings.yaml
