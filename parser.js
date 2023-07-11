@@ -1,5 +1,5 @@
 // 说明：1、该配置代码已经备份在 GitHub Gist 上；2、使用仅需要在 parser 中做如下配置：3、根据 CFW 文档，既可以引用本地 js，也可以使用 Gist 远程 raw url
-/* 
+/*
   parsers: # array
     - reg: https://.*$
       file: "/Users/xxxx/.config/clash/parser.js"
@@ -17,23 +17,28 @@ module.exports.parse = async (
   // declare proxy groups
   const proxyGroups = [];
 
-  // push my custom proxy groups.
+  // 给 proxy-groups 添加一个策略组，过滤掉带有特定字样的节点
+  const notIncludedFully = [];
+  const notIncludedPartly = ["香港", "日本", "圣何塞", "印度", "首尔", "新加坡", "美国"];
+  const filteredProxies4AI = proxies.filter(
+    (proxy) =>
+      notIncludedFully.indexOf(proxy) === -1 &&
+      notIncludedPartly.every((keyword) => !proxy.includes(keyword))
+  );
+
+  // push the proxy group for ai website
+  proxyGroups.push({
+    name: "URL-TEST-AI",
+    type: "url-test",
+    url: "http://www.gstatic.com/generate_204",
+    interval: 300,
+    lazy: true,
+    tolerance: 50,
+    proxies: filteredProxies4AI,
+  });
+
+  // push other my custom proxy groups.
   proxyGroups.push(
-    {
-      name: "PROXY",
-      type: "select",
-      proxies: ["URL-TEST", "LOAD-BALANCE", "SELECT", "DIRECT"],
-    },
-    {
-      name: "OTHER", //规则未命中
-      type: "select",
-      proxies: ["PROXY", "DIRECT"],
-    },
-    {
-      name: "AD",
-      type: "select",
-      proxies: ["REJECT", "DIRECT", "PROXY"],
-    },
     {
       name: "URL-TEST",
       type: "url-test",
@@ -54,27 +59,24 @@ module.exports.parse = async (
       name: "SELECT",
       type: "select",
       proxies: proxies,
+    },
+    {
+      name: "PROXY",
+      type: "select",
+      proxies: ["URL-TEST", "LOAD-BALANCE", "SELECT", "DIRECT"],
+    },
+    {
+      name: "OTHER", //规则未命中
+      type: "select",
+      proxies: ["PROXY", "DIRECT"],
+    },
+    {
+      name: "AD",
+      type: "select",
+      proxies: ["REJECT", "DIRECT", "PROXY"],
     }
   );
 
-  // 给 proxy-groups 添加一个策略组，过滤掉带有特定字样的节点
-  const notIncludedFully = ["新加坡", "新加坡-9", "新加坡-9-2"];
-  const notIncludedPartly = ["香港", "日本", "圣何塞"];
-  const filteredProxies4AI = proxies.filter(
-    (proxy) =>
-      notIncludedFully.indexOf(proxy) === -1 &&
-      notIncludedPartly.every((keyword) => !proxy.includes(keyword))
-  );
-
-  proxyGroups.push({
-    name: "URL-TEST-AI",
-    type: "url-test",
-    url: "http://www.gstatic.com/generate_204",
-    interval: 300,
-    lazy: true,
-    tolerance: 50,
-    proxies: filteredProxies4AI,
-  });
 
   // final result
   let result = {
