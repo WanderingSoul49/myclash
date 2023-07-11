@@ -1,8 +1,8 @@
 # 说明：该规则代码已经放在 GitHub Gist 上，此处仅做备份
 prepend-rules:
-  - DOMAIN-SUFFIX,discord.com,URL-TEST-AI
-  - DOMAIN-SUFFIX,bing.com,URL-TEST-AI
-  - DOMAIN-SUFFIX,openai.com,URL-TEST-AI
+  - DOMAIN-SUFFIX,discord.com,AI
+  - DOMAIN-SUFFIX,bing.com,AI
+  - DOMAIN-SUFFIX,openai.com,AI
   - RULE-SET,applications,DIRECT
   - DOMAIN,clash.razord.top,DIRECT
   - DOMAIN,yacd.haishan.me,DIRECT
