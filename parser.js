@@ -29,8 +29,8 @@ module.exports.parse = async (
     "春川",
   ];
   // have the highest priority. if onlyIncluded is not none, then just use the node of onlyIncluded
-  const onlyIncludedFullyMatch = ["新加坡"];
-  const onlyIncludedPartlyMatch = ["新加坡"];
+  const onlyIncludedFullyMatch = ["新加坡-3", "新加坡-9", "新加坡-9-2"];
+  const onlyIncludedPartlyMatch = [];
   // the filter result array
   let filteredProxies4AI = [];
   // judge whether the onluInclude is empty by length.
