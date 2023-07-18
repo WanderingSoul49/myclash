@@ -4,144 +4,181 @@
     - reg: https://.*$
       file: "/Users/xxxx/.config/clash/parser.js"
 */
-module.exports.parse = async (
-  raw,
-  { axios, yaml, notify, console },
-  { name, url, interval, selected }
-) => {
+module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url, interval, selected }) => {
   // get the raw config from subcribed profile
-  const rawProfileObj = yaml.parse(raw);
+  const mainProfile = yaml.parse(raw)
+  let proxies = mainProfile.proxies
+
+  // requet other profile for merging into one profile
+  const urlProfiles = ['https://v2.bruceyunti.net/api/v1/client/subscribe?token=5ac3eb5fb638c18b0e10a19edbe51fff']
+  for (let i = 0; i < urlProfiles.length; i++) {
+    const { status: otherProfileRequestStatus, data: otherProfileData } = await axios.get(urlProfiles[i])
+    if (otherProfileRequestStatus === 200) {
+      const parsedOtherProfileData = yaml.parse(otherProfileData)
+      // console.log(parsedOtherProfileData.proxies)
+      proxies = proxies.concat(parsedOtherProfileData.proxies)
+    } else {
+      console.log('请求 ${urlProfiles[i]} 失败')
+    }
+  }
+
   // 提取订阅链接中的节点列表
-  const proxies = rawProfileObj.proxies.map((proxy) => proxy.name);
+  // console.log(proxies)
+  const proxyNames = proxies.map(proxy => proxy.name)
+  // console.log(proxyNames)
 
   // declare proxy groups
-  const proxyGroups = [];
+  const proxyGroups = []
 
   // 给 proxy-groups 添加一个策略组，过滤掉带有特定字样的节点
-  const notIncludedFullyMatch = ["德国-15"];
-  const notIncludedPartlyMatch = [
-    "香港",
-    "日本",
-    "圣何塞",
-    "印度",
-    "首尔",
-    "美国",
-    "春川",
-  ];
+  const notIncludedFullyMatch = ['德国-15']
+  const notIncludedPartlyMatch = ['香港', '日本', '圣何塞', '印度', '首尔', '美国', '春川']
   // have the highest priority. if onlyIncluded is not none, then just use the node of onlyIncluded
-  const onlyIncludedFullyMatch = ["新加坡-3", "新加坡-9", "新加坡-9-2"];
-  const onlyIncludedPartlyMatch = [];
+  const onlyIncludedFullyMatch = ['新加坡-3', '新加坡-9', '新加坡-9-2']
+  const onlyIncludedPartlyMatch = ['新加坡!新加坡'] // Filter nodes that contain xxx but except for the full name yyy, eg.['新加坡!新加坡-1!新加坡-2']
   // the filter result array
-  let filteredProxies4AI = [];
+  let filteredProxies4AI = []
   // judge whether the onluInclude is empty by length.
   if (onlyIncludedFullyMatch.length > 0 || onlyIncludedPartlyMatch.length > 0) {
-    filteredProxies4AI = proxies.filter(
-      (proxy) =>
-        onlyIncludedFullyMatch.indexOf(proxy) >= 0 ||
-        onlyIncludedPartlyMatch.some((keyword) => proxy.includes(keyword))
-    );
+    filteredProxies4AI = proxyNames.filter(
+      proxyName =>
+        onlyIncludedFullyMatch.indexOf(proxyName) >= 0 ||
+        onlyIncludedPartlyMatch.some(keyword => {
+          const words = keyword.split('!')
+          if (words.length < 1) return proxyName.includes(words[0])
+          else return proxyName.includes(words.shift()) && words.indexOf(proxyName) === -1
+        }),
+    )
   } else {
-    filteredProxies4AI = proxies.filter(
-      (proxy) =>
-        notIncludedFullyMatch.indexOf(proxy) === -1 &&
-        notIncludedPartlyMatch.every((keyword) => !proxy.includes(keyword))
-    );
+    filteredProxies4AI = proxyNames.filter(
+      proxyName =>
+        notIncludedFullyMatch.indexOf(proxyName) === -1 &&
+        notIncludedPartlyMatch.every(keyword => !proxyName.includes(keyword)),
+    )
   }
-  console.log("The filter result is ", filteredProxies4AI);
+  // console.log('The filteredProxies4AI is ', filteredProxies4AI)
 
   // push the proxy group for ai website
   proxyGroups.push(
     {
-      name: "AI",
-      type: "select",
-      proxies: ["URL-TEST-AI", "SELECT-AI"],
+      name: 'AI',
+      type: 'select',
+      proxies: ['URL-TEST-AI', 'SELECT-AI'],
     },
     {
-      name: "URL-TEST-AI",
-      type: "url-test",
-      url: "http://www.gstatic.com/generate_204",
+      name: 'URL-TEST-AI',
+      type: 'url-test',
+      url: 'http://www.gstatic.com/generate_204',
       interval: 300,
       lazy: true,
       tolerance: 50,
       proxies: filteredProxies4AI,
     },
     {
-      name: "SELECT-AI",
-      type: "select",
+      name: 'SELECT-AI',
+      type: 'select',
       proxies: filteredProxies4AI,
-    }
-  );
+    },
+  )
+
+  // have the highest priority. if onlyIncluded is not none, then just use the node of onlyIncluded
+  const onlyIncludedFullyMatchClaude = []
+  const onlyIncludedPartlyMatchClaude = ['美国', '英国']
+  // the filter result array
+  const filteredProxies4Claude = proxyNames.filter(
+    proxy =>
+      onlyIncludedFullyMatchClaude.indexOf(proxy) >= 0 ||
+      onlyIncludedPartlyMatchClaude.some(keyword => proxy.includes(keyword)),
+  )
+  // console.log('The filteredProxies4Claude is ', filteredProxies4Claude)
+
+  // push the proxy group for google bard
+  proxyGroups.push(
+    {
+      name: 'CLAUDE',
+      type: 'select',
+      proxies: ['URL-TEST-CLAUDE', 'SELECT-CLAUDE'],
+    },
+    {
+      name: 'URL-TEST-CLAUDE',
+      type: 'url-test',
+      url: 'http://www.gstatic.com/generate_204',
+      interval: 300,
+      lazy: true,
+      tolerance: 50,
+      proxies: filteredProxies4Claude,
+    },
+    {
+      name: 'SELECT-CLAUDE',
+      type: 'select',
+      proxies: filteredProxies4Claude,
+    },
+  )
 
   // push other my custom proxy groups.
   proxyGroups.push(
     {
-      name: "PROXY",
-      type: "select",
-      proxies: ["URL-TEST", "LOAD-BALANCE", "SELECT", "DIRECT"],
+      name: 'PROXY',
+      type: 'select',
+      proxies: ['URL-TEST', 'LOAD-BALANCE', 'SELECT', 'DIRECT'],
     },
     {
-      name: "OTHER", //规则未命中
-      type: "select",
-      proxies: ["PROXY", "DIRECT"],
+      name: 'OTHER', //规则未命中
+      type: 'select',
+      proxies: ['PROXY', 'DIRECT'],
     },
     {
-      name: "AD",
-      type: "select",
-      proxies: ["REJECT", "DIRECT", "PROXY"],
+      name: 'AD',
+      type: 'select',
+      proxies: ['REJECT', 'DIRECT', 'PROXY'],
     },
     {
-      name: "URL-TEST",
-      type: "url-test",
-      url: "http://www.gstatic.com/generate_204",
+      name: 'URL-TEST',
+      type: 'url-test',
+      url: 'http://www.gstatic.com/generate_204',
       interval: 300,
       lazy: true,
       tolerance: 50,
-      proxies: proxies,
+      proxies: proxyNames,
     },
     {
-      name: "LOAD-BALANCE",
-      type: "load-balance",
-      url: "http://www.gstatic.com/generate_204",
+      name: 'LOAD-BALANCE',
+      type: 'load-balance',
+      url: 'http://www.gstatic.com/generate_204',
       interval: 180,
-      proxies: proxies,
+      proxies: proxyNames,
     },
     {
-      name: "SELECT",
-      type: "select",
-      proxies: proxies,
-    }
-  );
+      name: 'SELECT',
+      type: 'select',
+      proxies: proxyNames,
+    },
+  )
 
   // final result
   let result = {
-    ...rawProfileObj,
-    "proxy-groups": proxyGroups,
-  };
-
-  // set rules and rule providers
-  // const urlRule =
-  //   "https://gist.githubusercontent.com/puppetdevz/ba94db6d192908bda07b8fb43e63cb24/raw/9e775767ae45fe0e60e65f65dddd055c042f4e88/remote_rules.yml";
-  // const { status, ruleData } = await axios.get(urlRule);
-  // if (status !== 200) {
-  //   console.log("error " + status);
-  //   return yaml.stringify(result);
-  // }
-  const fs = require("fs");
-  const path = require("path");
-  let ruleData;
-  try {
-    // console.log(__dirname);
-    ruleData = fs.readFileSync(path.join(__dirname, "rules.yaml"), "utf8");
-    // console.log(ruleData);
-  } catch (err) {
-    console.error(err);
-    return yaml.stringify(result);
+    ...mainProfile,
+    proxies,
+    'proxy-groups': proxyGroups,
   }
 
-  const ruleObj = yaml.parse(ruleData);
+  // set rules and rule providers
+  const fs = require('fs')
+  const path = require('path')
+  let ruleData
+  try {
+    // console.log(__dirname);
+    ruleData = fs.readFileSync(path.join(__dirname, 'rules.yaml'), 'utf8')
+    // console.log(ruleData);
+  } catch (err) {
+    console.error(err)
+    return yaml.stringify(result)
+  }
+
+  const ruleObj = yaml.parse(ruleData)
   // console.log(ruleObj);
 
-  result.rules = ruleObj["prepend-rules"];
-  result["rule-providers"] = ruleObj["mix-rule-providers"];
-  return yaml.stringify(result);
-};
+  result.rules = ruleObj['prepend-rules']
+  result['rule-providers'] = ruleObj['mix-rule-providers']
+  return yaml.stringify(result)
+}
