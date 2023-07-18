@@ -81,40 +81,6 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
     },
   )
 
-  // have the highest priority. if onlyIncluded is not none, then just use the node of onlyIncluded
-  const onlyIncludedFullyMatchClaude = []
-  const onlyIncludedPartlyMatchClaude = ['美国', '英国']
-  // the filter result array
-  const filteredProxies4Claude = proxyNames.filter(
-    proxy =>
-      onlyIncludedFullyMatchClaude.indexOf(proxy) >= 0 ||
-      onlyIncludedPartlyMatchClaude.some(keyword => proxy.includes(keyword)),
-  )
-  // console.log('The filteredProxies4Claude is ', filteredProxies4Claude)
-
-  // push the proxy group for google bard
-  proxyGroups.push(
-    {
-      name: 'CLAUDE',
-      type: 'select',
-      proxies: ['URL-TEST-CLAUDE', 'SELECT-CLAUDE'],
-    },
-    {
-      name: 'URL-TEST-CLAUDE',
-      type: 'url-test',
-      url: 'http://www.gstatic.com/generate_204',
-      interval: 300,
-      lazy: true,
-      tolerance: 50,
-      proxies: filteredProxies4Claude,
-    },
-    {
-      name: 'SELECT-CLAUDE',
-      type: 'select',
-      proxies: filteredProxies4Claude,
-    },
-  )
-
   // push other my custom proxy groups.
   proxyGroups.push(
     {
