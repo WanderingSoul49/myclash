@@ -35,7 +35,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
   const notIncludedPartlyMatch = ['香港', '日本', '圣何塞', '印度', '首尔', '美国', '春川']
   // have the highest priority. if onlyIncluded is not none, then just use the node of onlyIncluded
   const onlyIncludedFullyMatch = ['新加坡-3', '新加坡-9', '新加坡-9-2']
-  const onlyIncludedPartlyMatch = ['新加坡!新加坡'] // Filter nodes that contain xxx but except for the full name yyy, eg.['新加坡!新加坡-1!新加坡-2']
+  const onlyIncludedPartlyMatch = ['新加坡!新加坡', '美国'] // Filter nodes that contain xxx but except for the full name yyy, eg.['新加坡!新加坡-1!新加坡-2']
   // the filter result array
   let filteredProxies4AI = []
   // judge whether the onluInclude is empty by length.
