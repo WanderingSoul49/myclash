@@ -10,7 +10,8 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
   let proxies = mainProfile.proxies
 
   // requet other profile for merging into one profile
-  const urlProfiles = ['https://v2.bruceyunti.net/api/v1/client/subscribe?token=5ac3eb5fb638c18b0e10a19edbe51fff']
+  const urlProfiles = []
+  // const urlProfiles = ['https://v2.bruceyunti.net/api/v1/client/subscribe?token=5ac3eb5fb638c18b0e10a19edbe51fff']
   for (let i = 0; i < urlProfiles.length; i++) {
     const { status: otherProfileRequestStatus, data: otherProfileData } = await axios.get(urlProfiles[i])
     if (otherProfileRequestStatus === 200) {
