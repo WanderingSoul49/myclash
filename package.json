@@ -6,7 +6,6 @@
   "author": "zhongyuming <puppetdev@163.com>",
   "license": "MIT",
   "scripts": {
-    "push": "deploy.py --push-src",
-    "pull": "deploy.py --pull-src"
+    "push": "deploy.py --push-src"
   }
 }
