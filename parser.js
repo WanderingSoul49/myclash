@@ -1,4 +1,4 @@
-// 说明：1、该配置代码已经备份在 GitHub Gist 上；2、使用仅需要在 parser 中做如下配置：3、根据 CFW 文档，既可以引用本地 js，也可以使用 Gist 远程 raw url
+// 说明：使用仅需要在 parser 中做如下配置；根据 CFW 文档，既可以引用本地 js，也可以使用 Gist 远程 raw url
 /*
   parsers: # array
     - reg: https://.*$
