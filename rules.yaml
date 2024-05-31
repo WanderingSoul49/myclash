@@ -16,7 +16,7 @@ prepend-rules:
   - RULE-SET,lancidr,DIRECT
   - RULE-SET,cncidr,DIRECT
   - GEOIP,CN,DIRECT
-  - RULE-SET,customdirect,DIRECT
+  - RULE-SET,custom,DIRECT
   - RULE-SET,proxy,PROXY
   - MATCH,OTHER
 mix-rule-providers:
@@ -104,7 +104,7 @@ mix-rule-providers:
     url: https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt
     path: ./ruleset/applications.yaml
     interval: 86400
-  customdirect:
+  custom:
     type: file
     behavior: domain
     path: ./ruleset/custom.yml
