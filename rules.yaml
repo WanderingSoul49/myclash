@@ -1,10 +1,5 @@
 prepend-rules:
-  - DOMAIN-SUFFIX,claude.ai,AI
-  - DOMAIN-SUFFIX,anthropic.com,AI
-  - DOMAIN-SUFFIX,google.com,AI
-  - DOMAIN-SUFFIX,discord.com,AI
-  - DOMAIN-SUFFIX,bing.com,AI
-  - DOMAIN-SUFFIX,openai.com,AI
+  - RULE-SET,ai,AI
   - RULE-SET,applications,DIRECT
   - DOMAIN,clash.razord.top,DIRECT
   - DOMAIN,yacd.haishan.me,DIRECT
@@ -13,6 +8,7 @@ prepend-rules:
   - RULE-SET,icloud,DIRECT
   - RULE-SET,apple,DIRECT
   - RULE-SET,google,DIRECT
+  - RULE-SET,custom,DIRECT
   - RULE-SET,tld-not-cn,PROXY
   - RULE-SET,gfw,PROXY
   - RULE-SET,greatfire,PROXY
@@ -20,8 +16,8 @@ prepend-rules:
   - RULE-SET,lancidr,DIRECT
   - RULE-SET,cncidr,DIRECT
   - GEOIP,CN,DIRECT
-  - RULE-SET,direct,DIRECT
-  - RULE-SET,proxy,OTHER
+  - RULE-SET,customdirect,DIRECT
+  - RULE-SET,proxy,PROXY
   - MATCH,OTHER
 mix-rule-providers:
   reject:
@@ -108,3 +104,11 @@ mix-rule-providers:
     url: https://cdn.jsdelivr.net/gh/Loyalsoldier/clash-rules@release/applications.txt
     path: ./ruleset/applications.yaml
     interval: 86400
+  customdirect:
+    type: file
+    behavior: domain
+    path: ./ruleset/custom.yml
+  ai:
+    type: file
+    behavior: domain
+    path: ./ruleset/ai.yml
