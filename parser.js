@@ -38,10 +38,10 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
   const onlyIncludedFullyMatch = ['新加坡-3', '新加坡-9', '新加坡-9-2']
   const onlyIncludedPartlyMatch = ['新加坡!新加坡', '美国'] // Filter nodes that contain xxx but except for the full name yyy, eg.['新加坡!新加坡-1!Singapore-2']
   // the filter result array
-  let filteredProxies4AI = []
+  let proxyNames4AI = []
   // judge whether the onluInclude is empty by length.
   if (onlyIncludedFullyMatch.length > 0 || onlyIncludedPartlyMatch.length > 0) {
-    filteredProxies4AI = proxyNames.filter(
+    proxyNames4AI = proxyNames.filter(
       proxyName =>
         onlyIncludedFullyMatch.indexOf(proxyName) >= 0 ||
         onlyIncludedPartlyMatch.some(keyword => {
@@ -51,7 +51,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         }),
     )
   } else {
-    filteredProxies4AI = proxyNames.filter(
+    proxyNames4AI = proxyNames.filter(
       proxyName =>
         notIncludedFullyMatch.indexOf(proxyName) === -1 &&
         notIncludedPartlyMatch.every(keyword => !proxyName.includes(keyword)),
@@ -73,12 +73,12 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
       interval: 300,
       lazy: true,
       tolerance: 50,
-      proxies: filteredProxies4AI,
+      proxies: proxyNames4AI,
     },
     {
       name: 'SELECT-AI',
       type: 'select',
-      proxies: filteredProxies4AI,
+      proxies: proxyNames4AI,
     },
   )
 
