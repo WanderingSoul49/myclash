@@ -33,7 +33,7 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
 
   // 给 proxy-groups 添加一个策略组，过滤掉带有特定字样的节点
   const notIncludedFullyMatch = ['德国-15']
-  const notIncludedPartlyMatch = ['香港', '日本', '圣何塞', '印度', '首尔', '美国', '春川']
+  const notIncludedPartlyMatch = ['香港', '日本']
   // have the highest priority. if onlyIncluded is not none, then just use the node of onlyIncluded
   const onlyIncludedFullyMatch = ['新加坡-3', '新加坡-9', '新加坡-9-2']
   const onlyIncludedPartlyMatch = ['新加坡!新加坡', '美国'] // Filter nodes that contain xxx but except for the full name yyy, eg.['新加坡!新加坡-1!Singapore-2']
