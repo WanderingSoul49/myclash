@@ -1,6 +1,8 @@
 prepend-rules:
   - RULE-SET,ai,AI
   - RULE-SET,custom-direct,DIRECT
+  - RULE-SET,myservers-cn,DIRECT
+  - RULE-SET,myservers-en,DIRECT
   - RULE-SET,applications,DIRECT
   - DOMAIN,clash.razord.top,DIRECT
   - DOMAIN,yacd.haishan.me,DIRECT
@@ -111,3 +113,11 @@ mix-rule-providers:
     type: file
     behavior: domain
     path: ./ruleset/ai.yml
+  myservers-cn:
+    type: file
+    behavior: ipcidr
+    path: ./ruleset/myservers-cn.yaml
+  myservers-en:
+    type: file
+    behavior: ipcidr
+    path: ./ruleset/myservers-en.yaml
