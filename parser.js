@@ -11,7 +11,8 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
 
   // requet other profile for merging into one profile
   const urlProfiles = []
-  // const urlProfiles = ['https://v2.bruceyunti.net/api/v1/client/subscribe?token=5ac3eb5fb638c18b0e10a19edbe51fff']
+  // 公开、废弃
+  // const urlProfiles = ['https://v2.bruceyunti.net/api/v1/client/subscribe?token=5ac351fff']
   for (let i = 0; i < urlProfiles.length; i++) {
     const { status: otherProfileRequestStatus, data: otherProfileData } = await axios.get(urlProfiles[i])
     if (otherProfileRequestStatus === 200) {
@@ -38,10 +39,10 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
   const onlyIncludedFullyMatch = ['新加坡-3', '新加坡-9', '新加坡-9-2']
   const onlyIncludedPartlyMatch = ['新加坡!新加坡', '美国'] // Filter nodes that contain xxx but except for the full name yyy, eg.['新加坡!新加坡-1!Singapore-2']
   // the filter result array
-  let proxyNames4AI = []
+  let proxyNames4LLM = []
   // judge whether the onluInclude is empty by length.
   if (onlyIncludedFullyMatch.length > 0 || onlyIncludedPartlyMatch.length > 0) {
-    proxyNames4AI = proxyNames.filter(
+    proxyNames4LLM = proxyNames.filter(
       proxyName =>
         onlyIncludedFullyMatch.indexOf(proxyName) >= 0 ||
         onlyIncludedPartlyMatch.some(keyword => {
@@ -51,34 +52,34 @@ module.exports.parse = async (raw, { axios, yaml, notify, console }, { name, url
         }),
     )
   } else {
-    proxyNames4AI = proxyNames.filter(
+    proxyNames4LLM = proxyNames.filter(
       proxyName =>
         notIncludedFullyMatch.indexOf(proxyName) === -1 &&
         notIncludedPartlyMatch.every(keyword => !proxyName.includes(keyword)),
     )
   }
-  // console.log('The filteredProxies4AI is ', filteredProxies4AI)
+  // console.log('The filteredProxies4LLM is ', filteredProxies4LLM)
 
-  // push the proxy group for ai website
+  // push the proxy group for LLM website
   proxyGroups.push(
     {
-      name: 'AI',
+      name: 'LLM',
       type: 'select',
-      proxies: ['URL-TEST-AI', 'SELECT-AI'],
+      proxies: ['URL-TEST-LLM', 'SELECT-LLM'],
     },
     {
-      name: 'URL-TEST-AI',
+      name: 'URL-TEST-LLM',
       type: 'url-test',
       url: 'http://www.gstatic.com/generate_204',
       interval: 300,
       lazy: true,
       tolerance: 50,
-      proxies: proxyNames4AI,
+      proxies: proxyNames4LLM,
     },
     {
-      name: 'SELECT-AI',
+      name: 'SELECT-LLM',
       type: 'select',
-      proxies: proxyNames4AI,
+      proxies: proxyNames4LLM,
     },
   )
 

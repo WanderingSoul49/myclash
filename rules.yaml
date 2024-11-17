@@ -1,5 +1,5 @@
 prepend-rules:
-  - RULE-SET,ai,AI
+  - RULE-SET,llm,LLM
   - RULE-SET,custom-direct,DIRECT
   - RULE-SET,myservers-cn,DIRECT
   - RULE-SET,myservers-en,DIRECT
@@ -109,10 +109,10 @@ mix-rule-providers:
     type: file
     behavior: domain
     path: ./ruleset/custom-direct.yml
-  ai:
+  llm:
     type: file
     behavior: domain
-    path: ./ruleset/ai.yml
+    path: ./ruleset/llm.yml
   myservers-cn:
     type: file
     behavior: ipcidr

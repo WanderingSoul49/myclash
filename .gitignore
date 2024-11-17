@@ -1,8 +1,8 @@
 service/clash-core-service
-logs/**
-providers/**
+logs
+providers
 cache.db
-profiles/**
+profiles
 config.yaml
 Country.mmdb
 cfw-settings.yaml
