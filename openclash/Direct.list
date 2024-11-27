@@ -9,6 +9,8 @@ DOMAIN-SUFFIX,puppetdevz.top
 DOMAIN-SUFFIX,puppetdev.top
 DOMAIN-SUFFIX,linux.do
 DOMAIN-SUFFIX,cocopilot.org
+DOMAIN-SUFFIX,m-team.cc
+DOMAIN-SUFFIX,m-team.io
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,baidu
