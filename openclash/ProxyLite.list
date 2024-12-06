@@ -1,10 +1,14 @@
 # 代理补充列表
 
+# 完整域名匹配
+# pt站点
+DOMAIN,www.haidan.video
+DOMAIN,api.thetvdb.com
+
 # 域名后缀匹配
 DOMAIN-SUFFIX,qichiyu.com
 DOMAIN-SUFFIX,github.com
 DOMAIN-SUFFIX,githubusercontent.com
-DOMAIN-SUFFIX,thetvdb.com
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,1e100
