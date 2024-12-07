@@ -4,6 +4,9 @@
 # pt站点
 DOMAIN,www.haidan.video
 DOMAIN,api.thetvdb.com
+DOMAIN,api.themoviedb.org
+DOMAIN,api.tmdb.org
+DOMAIN,www.themoviedb.org
 
 # 域名后缀匹配
 DOMAIN-SUFFIX,qichiyu.com
