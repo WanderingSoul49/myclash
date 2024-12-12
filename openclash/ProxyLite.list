@@ -1,18 +1,16 @@
 # 代理补充列表
 
-# 完整域名匹配
-# pt站点
-DOMAIN,www.haidan.video
-DOMAIN,api.thetvdb.com
-DOMAIN,api.themoviedb.org
-DOMAIN,api.tmdb.org
-DOMAIN,www.themoviedb.org
-DOMAIN,www.torrentleech.org
-
 # 域名后缀匹配
 DOMAIN-SUFFIX,qichiyu.com
 DOMAIN-SUFFIX,github.com
 DOMAIN-SUFFIX,githubusercontent.com
+# pt站点
+DOMAIN-SUFFIX,haidan.video
+DOMAIN-SUFFIX,rousi.zip
+DOMAIN-SUFFIX,torrentleech.org
+DOMAIN-SUFFIX,tmdb.org
+DOMAIN-SUFFIX,thetvdb.com
+DOMAIN-SUFFIX,themoviedb.org
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,1e100
