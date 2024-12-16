@@ -1,0 +1,7 @@
+payload:
+  - '+.openai.com'
+  - '+.claude.ai'
+  - '+.anthropic.com'
+  - '+.google.com'
+  - '+.discord.com'
+  - '+.bing.com'
