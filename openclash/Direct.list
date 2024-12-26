@@ -10,7 +10,10 @@ DOMAIN-SUFFIX,puppetdev.top
 DOMAIN-SUFFIX,linux.do
 DOMAIN-SUFFIX,cocopilot.org
 DOMAIN-SUFFIX,ppyun.me
+
+# 国内银行
 DOMAIN-SUFFIX,gdrbb.com
+DOMAIN-SUFFIX,grcbank.com
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,baidu
