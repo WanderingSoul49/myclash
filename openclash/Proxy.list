@@ -17,6 +17,8 @@ DOMAIN-SUFFIX,thetvdb.com
 DOMAIN-SUFFIX,themoviedb.org
 DOMAIN-SUFFIX,gofrp.org
 DOMAIN-SUFFIX,phonevalidator.com
+DOMAIN-SUFFIX,proxy302.com
+DOMAIN-SUFFIX,302.ai
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,1e100
