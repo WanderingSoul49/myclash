@@ -6,3 +6,4 @@
 
 # 需要走代理的规则
 DOMAIN-SUFFIX,tktn.be
+DOMAIN-SUFFIX,tktn.at
