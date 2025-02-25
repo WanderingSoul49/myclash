@@ -11,6 +11,7 @@ DOMAIN-SUFFIX,linux.do
 DOMAIN-SUFFIX,cocopilot.org
 DOMAIN-SUFFIX,ppyun.me
 DOMAIN-SUFFIX,4chat.me
+DOMAIN-SUFFIX,nn.ci
 
 # 国内银行
 DOMAIN-SUFFIX,gdrbb.com
@@ -19,7 +20,6 @@ DOMAIN-SUFFIX,grcbank.com
 # 域名关键字匹配
 DOMAIN-KEYWORD,baidu
 DOMAIN-KEYWORD,m-team
-DOMAIN-KEYWORD,nn.ci
 
 # IP段匹配
 IP-CIDR,219.146.1.66/32,no-resolve
