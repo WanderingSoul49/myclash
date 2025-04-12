@@ -1,5 +1,6 @@
 # 代理补充列表
 DOMAIN,cdn.linux.do
+DOMAIN,mail.linux.do
 
 # 域名后缀匹配
 DOMAIN-SUFFIX,qichiyu.com
