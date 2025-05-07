@@ -1,4 +1,7 @@
 # 代理补充列表
+DOMAIN,cdn.linux.do
+DOMAIN,mail.linux.do
+DOMAIN,xn--o-5gn
 
 # 域名后缀匹配
 DOMAIN-SUFFIX,qichiyu.com
@@ -10,9 +13,8 @@ DOMAIN-SUFFIX,sunnypt.top
 DOMAIN-SUFFIX,pttime.org
 DOMAIN-SUFFIX,torrentleech.org
 DOMAIN-SUFFIX,oldtoons.world
-DOMAIN-SUFFIX,rousi.zip
-DOMAIN-SUFFIX,rousipt.com
 DOMAIN-SUFFIX,btschool.club
+DOMAIN-SUFFIX,rousi.zip
 DOMAIN-SUFFIX,tmdb.org
 DOMAIN-SUFFIX,thetvdb.com
 DOMAIN-SUFFIX,themoviedb.org
@@ -25,6 +27,10 @@ DOMAIN-SUFFIX,onrender.com
 DOMAIN-SUFFIX,us.kg
 DOMAIN-SUFFIX,naixue222.net
 DOMAIN-SUFFIX,jable.tv
+DOMAIN-SUFFIX,cdnuc.cc
+DOMAIN-SUFFIX,jmapiproxy2.cc
+DOMAIN-SUFFIX,puppetdevz.me
+DOMAIN-SUFFIX,puppetdevz.tech
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,1e100
