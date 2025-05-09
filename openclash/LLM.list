@@ -47,6 +47,7 @@ DOMAIN-SUFFIX,deepmind.com
 DOMAIN-SUFFIX,deepmind.google
 
 # >> Google Generative Language API
+DOMAIN,generativelanguage.googleapis.com
 DOMAIN-SUFFIX,generativelanguage.googleapis.com
 DOMAIN-SUFFIX,geller-pa.googleapis.com
 DOMAIN-SUFFIX,proactivebackend-pa.googleapis.com
