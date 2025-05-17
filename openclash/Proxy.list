@@ -2,6 +2,7 @@
 DOMAIN,cdn.linux.do
 DOMAIN,mail.linux.do
 DOMAIN,xn--o-5gn
+DOMAIN,api.oaipro.com
 
 # 域名后缀匹配
 DOMAIN-SUFFIX,qichiyu.com
@@ -33,8 +34,6 @@ DOMAIN-SUFFIX,puppetdevz.me
 DOMAIN-SUFFIX,puppetdevz.tech
 DOMAIN-SUFFIX,cpu0.de
 DOMAIN-SUFFIX,opaoai.com
-DOMAIN-SUFFIX,cdnuc.cc
-DOMAIN-SUFFIX,jmapiproxy2.cc
 DOMAIN-SUFFIX,hooooooo.com
 
 # 域名关键字匹配
