@@ -12,6 +12,7 @@ DOMAIN-SUFFIX,stripe.com
 DOMAIN-SUFFIX,freedidi.com
 DOMAIN-SUFFIX,genspark.ai
 DOMAIN-SUFFIX,o3.fan
+DOMAIN-SUFFIX,hackerone.com
 
 ## OpenAI
 DOMAIN,cdn.auth0.com
