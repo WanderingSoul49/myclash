@@ -2,7 +2,6 @@
 DOMAIN,cdn.linux.do
 DOMAIN,mail.linux.do
 DOMAIN,xn--o-5gn
-DOMAIN,api.oaipro.com
 
 # 域名后缀匹配
 DOMAIN-SUFFIX,qichiyu.com
