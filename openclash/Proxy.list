@@ -4,6 +4,7 @@ DOMAIN,mail.linux.do
 DOMAIN,xn--o-5gn
 
 # 域名后缀匹配
+DOMAIN-SUFFIX,941878.xyz
 DOMAIN-SUFFIX,qichiyu.com
 DOMAIN-SUFFIX,github.com
 DOMAIN-SUFFIX,githubusercontent.com
