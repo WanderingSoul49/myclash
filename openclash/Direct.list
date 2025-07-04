@@ -1,6 +1,12 @@
 # 直连补充列表(国内域名不解析时，防止走代理使用)
 DOMAIN,linux.do
+
+# M-Team tracer直连，避免被识别为盒子
 DOMAIN,tracker.m-team.cc
+DOMAIN,tra1.m-team.cc
+DOMAIN,tracker.m-team.io
+DOMAIN,tra1.m-team.io
+DOMAIN,tra99.manfuz.co
 
 # 域名后缀匹配
 DOMAIN-SUFFIX,time.windows.com

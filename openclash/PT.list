@@ -3,4 +3,8 @@ DOMAIN,pt.btschool.club
 DOMAIN,sunnypt.top
 DOMAIN,www.haidan.video
 
+# 馒头tracker直连已在Direct中配置，剩下的全部代理
 DOMAIN-SUFFIX,m-team.cc
+DOMAIN-SUFFIX,m-team.io
+DOMAIN-SUFFIX,manfuz.co
+DOMAIN-SUFFIX,halomt.com
