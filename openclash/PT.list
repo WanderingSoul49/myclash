@@ -2,6 +2,7 @@ DOMAIN,www.pttime.org
 DOMAIN,pt.btschool.club
 DOMAIN,sunnypt.top
 DOMAIN,www.haidan.video
+DOMAIN,rousi.zip
 
 # 馒头tracker直连已在Direct中配置，剩下的全部代理
 DOMAIN-SUFFIX,m-team.cc
