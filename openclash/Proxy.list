@@ -29,6 +29,7 @@ DOMAIN-SUFFIX,opaoai.com
 DOMAIN-SUFFIX,hooooooo.com
 DOMAIN-SUFFIX,meiguodizhi.com
 DOMAIN-SUFFIX,fauxid.com
+DOMAIN-SUFFIX,catsapi.com
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,1e100
