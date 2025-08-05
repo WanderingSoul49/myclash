@@ -1,0 +1,4 @@
+#dia 浏览器，指定给 US 分流
+DOMAIN,api.segment.io
+DOMAIN-SUFFIX,launchdarkly.com
+DOMAIN-SUFFIX,diabrowser.engineering
