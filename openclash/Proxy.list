@@ -3,6 +3,7 @@ DOMAIN,cdn.linux.do
 DOMAIN,mail.linux.do
 DOMAIN,xn--o-5gn
 DOMAIN,a-generic.be-a.dev
+DOMAIN,challenges.cloudflare.com
 
 # 域名后缀匹配
 DOMAIN-SUFFIX,941878.xyz
