@@ -2,6 +2,7 @@
 DOMAIN,api.segment.io
 DOMAIN-SUFFIX,launchdarkly.com
 DOMAIN-SUFFIX,diabrowser.engineering
+DOMAIN-SUFFIX,diabrowser.com
 
 # NAME: Gemini
 DOMAIN,alkalimakersuite-pa.clients6.google.com
