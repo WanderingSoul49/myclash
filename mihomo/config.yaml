@@ -260,46 +260,68 @@ proxy-groups:
   # 原始策略组
   - name: 🚀 手动切换
     type: select
-    filter: '*'
+    include-all: true
+    exclude-type: direct
   - name: ♻️ 自动优选
     type: url-test
-    url: http://www.gstatic.com/generate_204
-    interval: 300
+    include-all: true
+    exclude-type: direct
     tolerance: 50
-    filter: '^(?!.*(家宽|家庭|住宅|原生)).*$'
   - name: 🏡 家宽节点
     type: select
-    filter: '(家宽|家庭|住宅|原生)'
+    include-all: true
+    exclude-type: direct
+    filter: '(?i)家宽|家庭|住宅|原生'
   - name: 🎮 游戏节点
     type: select
-    filter: '(游戏)'
+    include-all: true
+    exclude-type: direct
+    filter: '(?i)游戏'
   - name: 🇭🇰 香港节点
     type: select
-    filter: '(?=.*(香港|HK|Hong Kong|🇭🇰|HongKong))^((?!(家宽|家庭|住宅|原生)).)*$'
+    include-all: true
+    exclude-type: direct
+    filter: '(?i)香港|HK|Hong Kong|🇭🇰|HongKong'
   - name: 🇯🇵 日本节点
     type: select
-    filter: '(?=.*(日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan))^((?!(家宽|家庭|住宅|原生)).)*$'
+    include-all: true
+    exclude-type: direct
+    filter: '(?i)日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan'
   - name: 🇸🇬 狮城节点
     type: select
-    filter: '(?=.*(新加坡|坡|狮城|SG|Singapore))^((?!(家宽|家庭|住宅|原生)).)*$'
+    include-all: true
+    exclude-type: direct
+    filter: '(?i)新加坡|坡|狮城|SG|Singapore|Singapur'
   - name: 🇺🇲 美国节点
     type: select
-    filter: '(?=.*(美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States))^((?!(家宽|家庭|住宅|原生)).)*$'
+    include-all: true
+    exclude-type: direct
+    filter: '(?i)美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States'
   - name: 🇨🇳 台湾节点
     type: select
-    filter: '(?=.*(台湾|TW|taiwan|台湾地区|Taiwan))^((?!(家宽|家庭|住宅|原生)).)*$'
+    include-all: true
+    exclude-type: direct
+    filter: '(?i)台湾|TW|taiwan|台湾地区|Taiwan|台|台北|臺灣'
   - name: 🇰🇷 韩国节点
     type: select
-    filter: '(KR|Korea|KOR|首尔|韩|韓)'
+    include-all: true
+    exclude-type: direct
+    filter: '(?i)KR|Korea|KOR|首尔|韩|韓国|韩国节点'
   - name: 🌐 其他地区
     type: select
-    filter: '(^(?!.*(KR|Korea|KOR|首尔|韩|韓|香港|HK|Hong Kong|🇭🇰|HongKong|日本|川日|东京|大阪|泉日|埼玉|沪日|深日|JP|Japan|新加坡|坡|狮城|SG|Singapore|美|波特兰|达拉斯|俄勒冈|凤凰城|费利蒙|硅谷|拉斯维加斯|洛杉矶|圣何塞|圣克拉拉|西雅图|芝加哥|US|United States|台湾|TW|taiwan|台湾地区|Taiwan)).*)^((?!(家宽|家庭|住宅|原生)).)*$'
+    include-all: true
+    exclude-type: direct
+    filter: '(?i)^(?!.*(?:🇭🇰|🇯🇵|🇺🇸|🇸🇬|🇨🇳|港|hk|hongkong|台|tw|taiwan|日|jp|japan|新|sg|singapore|美|us|unitedstates)).*'
   - name: 🎥 奈飞节点
     type: select
-    filter: '(NF|奈飞|解锁|Netflix|NETFLIX|Media)'
+    include-all: true
+    exclude-type: direct
+    filter: '(?i)NF|奈飞|解锁|Netflix|NETFLIX|Media'
   - name: 💬 AI节点
     type: select
-    filter: '(美国|泰国 Vip2|菲律宾 Vip2|韩国 Vip2|韩国 IPLC 游戏 Vip3 Zx|新加坡 Vip2|新加坡 IPLC 游戏 Vip3 Zx 02|新加坡 IPLC 游戏 Vip3 Zx 06|台湾 Vip2)'
+    include-all: true
+    exclude-type: direct
+    filter: '(?i)美国|泰国 Vip2|菲律宾 Vip2|韩国 Vip2|韩国 IPLC 游戏 Vip3 Zx|新加坡 Vip2|新加坡 IPLC 游戏 Vip3 Zx 02|新加坡 IPLC 游戏 Vip3 Zx 06|台湾 Vip2'
 
 
 rules:
