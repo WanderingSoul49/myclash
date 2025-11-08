@@ -1,6 +1,4 @@
 # 域名
-DOMAIN,cdn.linux.do
-DOMAIN,mail.linux.do
 DOMAIN,xn--o-5gn
 DOMAIN,a-generic.be-a.dev
 DOMAIN,challenges.cloudflare.com
@@ -33,6 +31,7 @@ DOMAIN-SUFFIX,meiguodizhi.com
 DOMAIN-SUFFIX,fauxid.com
 DOMAIN-SUFFIX,catsapi.com
 DOMAIN-SUFFIX,ghcr.io
+DOMAIN-SUFFIX,linux.do
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,1e100
