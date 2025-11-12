@@ -360,7 +360,24 @@ async function operator(proxies = [], targetPlatform, context) {
     )}`
   }
 
-  // 并发执行任务
+  /**
+   * 并发执行异步任务队列
+   * 支持限制并发数和收集任务结果
+   *
+   * @param {Array<() => Promise>} tasks - 异步任务函数数组
+   * @param {Object} options - 配置选项
+   * @param {boolean} [options.wrap=false] - 是否用 {data} 或 {error} 包装结果
+   * @param {boolean} [options.result=false] - 是否收集并返回所有任务结果
+   * @param {number} [options.concurrency=1] - 最大并发数
+   * @returns {Promise<Array|undefined>} - 当 result=true 时返回结果数组,否则返回 undefined
+   *
+   * @example
+   * // 并发执行 AI 检测任务,限制并发数为 5,收集结果
+   * await executeAsyncTasks(
+   *   proxies.map(proxy => () => checkMultipleUrls(proxy)),
+   *   { concurrency, result: true }
+   * )
+   */
   function executeAsyncTasks(tasks, { wrap, result, concurrency = 1 } = {}) {
     return new Promise(async (resolve, reject) => {
       try {
