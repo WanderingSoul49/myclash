@@ -3,13 +3,33 @@
  * 多模型 AI 检测(适配 Sub-Store Node.js 版)
  * 增强版：支持同时检测多个地址，全部通过才标记为可用
  *
- * 新增参数:
+ * HTTP META(https://github.com/xream/http-meta) 参数
+ * - [http_meta_protocol] 协议 默认: http
+ * - [http_meta_host] 服务地址 默认: 127.0.0.1
+ * - [http_meta_port] 端口号 默认: 9876
+ * - [http_meta_authorization] Authorization 默认无
+ * - [http_meta_start_delay] 初始启动延时(单位: 毫秒) 默认: 3000
+ * - [http_meta_proxy_timeout] 每个节点耗时(单位: 毫秒). 此参数是为了防止脚本异常退出未关闭核心. 设置过小将导致核心过早退出. 目前逻辑: 启动初始的延时 + 每个节点耗时. 默认: 15000
+ *
+ * 其它参数
+ * - [timeout] 请求超时(单位: 毫秒) 默认 5000
+ * - [retries] 重试次数 默认 1
+ * - [retry_delay] 重试延时(单位: 毫秒) 默认 1000
+ * - [concurrency] 并发数 默认 10
+ * - [ai_prefix] 显示前缀. 默认为 "[AI] "
+ * - [cache] 使用缓存, 默认不使用缓存
+ * - [disable_failed_cache/ignore_failed_error] 禁用失败缓存. 即不缓存失败结果
+ * 注: 节点上总是会添加一个 _ai 字段用于标记 AI 可用性, 新增 _ai_latency 字段指响应延迟
+ * 关于缓存时长
+ * 当使用相关脚本时, 若在对应的脚本中使用参数开启缓存, 可设置持久化缓存 sub-store-csr-expiration-time 的值来自定义默认缓存时长, 默认为 172800000 (48 * 3600 * 1000, 即 48 小时)
+ * 🎈Loon 可在插件中设置
+ *
+ * 新增参数(多模型检测专用):
  * - [test_urls] 测试地址列表，用逗号分隔。默认包含 GPT、Claude、Gemini
  * - [require_all_pass] 是否要求所有地址都通过，默认 true
- * - [ai_prefix] 显示前缀，默认 "[AI] "
- * - [test_gemini] 是否测试 Gemini，默认 true
- * - [test_claude] 是否测试 Claude，默认 true
  * - [test_openai] 是否测试 OpenAI，默认 true
+ * - [test_claude] 是否测试 Claude，默认 true
+ * - [test_gemini] 是否测试 Gemini，默认 true
  */
 
 async function operator(proxies = [], targetPlatform, context) {
@@ -147,7 +167,7 @@ async function operator(proxies = [], targetPlatform, context) {
   $.info(`等待 ${http_meta_start_delay / 1000} 秒后开始检测`)
   await $.wait(http_meta_start_delay)
 
-  const concurrency = parseInt($arguments.concurrency || 5) // 降低并发数，因为要测试多个地址
+  const concurrency = parseInt($arguments.concurrency || 10) // 降低并发数，因为要测试多个地址
   await executeAsyncTasks(
     internalProxies.map(proxy => () => checkMultipleUrls(proxy)),
     { concurrency }
