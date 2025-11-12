@@ -168,7 +168,7 @@ async function operator(proxies = [], targetPlatform, context) {
     })
     $.info(`\n======== HTTP META 关闭 ====\n${JSON.stringify(res, null, 2)}`)
   } catch (e) {
-    $.error(e)
+    $.error(`关闭 HTTP META 失败: ${e.message ?? e}`)
   }
 
   return proxies
