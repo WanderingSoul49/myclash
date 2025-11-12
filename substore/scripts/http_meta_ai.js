@@ -1,35 +1,73 @@
 /**
+ * 多模型 AI 检测脚本 (Sub-Store Node.js 版)
  *
- * 多模型 AI 检测(适配 Sub-Store Node.js 版)
- * 增强版：支持同时检测多个地址，全部通过才标记为可用
+ * 🎯 核心功能
+ * 通过 HTTP META 服务对代理节点进行多平台 AI 可用性检测
+ * 支持同时检测多个 AI 平台(GPT/Claude/Gemini)，可配置"全部通过"或"部分通过"模式
  *
- * HTTP META(https://github.com/xream/http-meta) 参数
+ * 🎈 HTTP META 参数
+ * 文档: https://github.com/xream/http-meta
  * - [http_meta_protocol] 协议 默认: http
  * - [http_meta_host] 服务地址 默认: 127.0.0.1
  * - [http_meta_port] 端口号 默认: 9876
- * - [http_meta_authorization] Authorization 默认无
+ * - [http_meta_authorization] 授权令牌 默认: (空)
  * - [http_meta_start_delay] 初始启动延时(单位: 毫秒) 默认: 3000
- * - [http_meta_proxy_timeout] 每个节点耗时(单位: 毫秒). 此参数是为了防止脚本异常退出未关闭核心. 设置过小将导致核心过早退出. 目前逻辑: 启动初始的延时 + 每个节点耗时. 默认: 15000
+ * - [http_meta_proxy_timeout] 每个节点检测超时(单位: 毫秒) 默认: 15000
+ *   ⚠️ 注: 总超时 = 初始延时 + (节点数 × 单个节点超时) 用于防止脚本异常退出未关闭核心
  *
- * 其它参数
- * - [timeout] 请求超时(单位: 毫秒) 默认 5000
- * - [retries] 重试次数 默认 1
- * - [retry_delay] 重试延时(单位: 毫秒) 默认 1000
- * - [concurrency] 并发数 默认 10
- * - [ai_prefix] 显示前缀. 默认为 "[AI] "
- * - [cache] 使用缓存, 默认不使用缓存
- * - [disable_failed_cache/ignore_failed_error] 禁用失败缓存. 即不缓存失败结果
- * 注: 节点上总是会添加一个 _ai 字段用于标记 AI 可用性, 新增 _ai_latency 字段指响应延迟
- * 关于缓存时长
- * 当使用相关脚本时, 若在对应的脚本中使用参数开启缓存, 可设置持久化缓存 sub-store-csr-expiration-time 的值来自定义默认缓存时长, 默认为 172800000 (48 * 3600 * 1000, 即 48 小时)
- * 🎈Loon 可在插件中设置
+ * ⚙️ 检测配置参数
+ * - [timeout] 单个请求超时(单位: 毫秒) 默认: 8000
+ * - [retries] 失败重试次数 默认: 1
+ * - [retry_delay] 重试延时(单位: 毫秒) 默认: 1000
+ * - [concurrency] 节点检测并发数 默认: 10
+ * - [method] HTTP 请求方式 默认: get
+ * - [client] OpenAI 客户端类型 默认: iOS
  *
- * 新增参数(多模型检测专用):
- * - [test_urls] 测试地址列表，用逗号分隔。默认包含 GPT、Claude、Gemini
- * - [require_all_pass] 是否要求所有地址都通过，默认 true
- * - [test_openai] 是否测试 OpenAI，默认 true
- * - [test_claude] 是否测试 Claude，默认 true
- * - [test_gemini] 是否测试 Gemini，默认 true
+ * 🤖 AI 检测专用参数
+ * - [require_all_pass] 是否要求所有平台检测通过才标记为可用 默认: true
+ *   - true: 所有平台都通过才标记为可用(AI 图标)
+ *   - false: 任一平台通过即标记为可用(AI 图标)
+ * - [test_openai] 是否检测 OpenAI 平台 默认: true
+ * - [test_claude] 是否检测 Claude 平台 默认: true
+ * - [test_gemini] 是否检测 Gemini 平台 默认: true
+ * - [test_urls] 自定义测试地址(逗号分隔)，优先级高于上述 test_* 参数
+ *   示例: "https://claude.ai,https://gemini.google.com"
+ *
+ * 🏷️ 结果标记参数
+ * - [ai_prefix] AI 可用节点名称前缀 默认: "[AI] "
+ * - [cache] 启用缓存机制 默认: false
+ * - [disable_failed_cache/ignore_failed_error] 禁用失败结果缓存 默认: (未启用)
+ *
+ * 📊 检测结果字段(添加到节点)
+ * - `_ai_available` 布尔值, true: AI 可用, false: AI 不可用
+ * - `_ai_latency` 平均响应延迟(毫秒)
+ * - `_ai_pass_count` 通过检测的平台数量
+ * - `_ai_results` 各平台详细检测结果对象
+ *
+ * 📝 AI 平台检测规则
+ * | 平台 | 检测地址 | 状态码 | 成功条件 |
+ * |------|---------|--------|---------|
+ * | OpenAI(GPT) | ios/android.chat.openai.com | 403 | 成功(不是不支持的国家) |
+ * | Claude | claude.ai | 200/403 | 成功(未被阻止) |
+ * | Gemini | gemini.google.com/aistudio.google.com | 200/302 | 成功(可访问) |
+ *
+ * 💾 缓存机制
+ * - 缓存时长由 sub-store-csr-expiration-time 控制(默认: 172800000ms = 48小时)
+ * - Loon 可在插件中设置此值
+ * - 可通过 disable_failed_cache 参数设置不缓存失败结果
+ *
+ * ⚡ 使用示例
+ * ```
+ * // 基础用法: 检测所有平台,要求全部通过
+ * // 自定义用法: 只检测 Claude 和 Gemini,任一通过即可
+ * [test_openai] false
+ * [require_all_pass] false
+ * ```
+ *
+ * 🔄 使用场景
+ * - Outbound 筛选: 只保留 AI 可用节点
+ * - 节点重命名: 在节点名加上 [AI] 前缀
+ * - 质量评估: 通过延迟和通过率评估节点质量
  */
 
 async function operator(proxies = [], targetPlatform, context) {
