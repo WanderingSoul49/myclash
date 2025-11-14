@@ -44,12 +44,12 @@
  * - `_ai_pass_count` 通过检测的平台数量
  * - `_ai_results` 各平台详细检测结果对象
  *
- * 📝 AI 平台检测规则
- * | 平台 | 检测地址 | 状态码 | 成功条件 |
- * |------|---------|--------|---------|
- * | OpenAI(GPT) | ios/android.chat.openai.com | 403 | 成功(不是不支持的国家) |
- * | Claude | claude.ai | 200/403 | 成功(未被阻止) |
- * | Gemini | gemini.google.com/aistudio.google.com | 200/302 | 成功(可访问) |
+ * 📝 AI 平台检测规则(优化版)
+ * | 平台 | 检测地址 | 成功状态码 | 失败条件 |
+ * |------|---------|----------|---------|
+ * | OpenAI(GPT) | ios/android.chat.openai.com | 200/301/302/307/308/403 | unsupported_country 错误 |
+ * | Claude | claude.ai | 200/301/302/307/308/403 | blocked/banned 消息 |
+ * | Gemini | gemini.google.com/aistudio.google.com | 200/301/302/307/308 | 403/429 限制访问 |
  *
  * 💾 缓存机制
  * - 缓存时长由 sub-store-csr-expiration-time 控制(默认: 172800000ms = 48小时)
@@ -356,11 +356,29 @@ async function operator(proxies = [], targetPlatform, context) {
   // 判断URL检测是否成功
   function checkUrlSuccess(url, status, msg, body) {
     if (url.includes('chat.openai.com')) {
-      return status == 403 && !/unsupported_country/.test(msg)
+      // OpenAI/ChatGPT 检测优化:
+      // ✅ 200/301/302/307/308: 正常访问/重定向
+      // ✅ 403: 可访问但需登录(只要不是 unsupported_country 错误)
+      // ❌ unsupported_country: 地区不支持
+      if (/unsupported_country/.test(msg)) {
+        return false
+      }
+      return [200, 301, 302, 307, 308, 403].includes(status)
     } else if (url.includes('claude.ai')) {
-      return status === 200 || (status === 403 && !msg?.includes('blocked'))
+      // Claude 检测优化:
+      // ✅ 200/301/302/307/308: 正常访问/重定向
+      // ✅ 403: 可访问但可能需要验证(检查是否被明确阻止)
+      // ❌ blocked/banned: 被阻止
+      if (msg && (msg.includes('blocked') || msg.includes('banned'))) {
+        return false
+      }
+      return [200, 301, 302, 307, 308, 403].includes(status)
     } else if (url.includes('gemini.google.com') || url.includes('aistudio.google.com')) {
-      return status === 200 || status === 302
+      // Gemini 检测优化:
+      // ✅ 200: 正常访问
+      // ✅ 301/302/307/308: 重定向(Google 常见行为)
+      // ❌ 403/429: 被限制访问
+      return [200, 301, 302, 307, 308].includes(status)
     } else {
       // 通用判断：200-399 状态码认为成功
       return status >= 200 && status < 400
