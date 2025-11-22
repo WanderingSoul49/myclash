@@ -33,6 +33,7 @@ DOMAIN-SUFFIX,catsapi.com
 DOMAIN-SUFFIX,ghcr.io
 DOMAIN-SUFFIX,linux.do
 DOMAIN-SUFFIX,clawcloudrun.com
+DOMAIN-SUFFIX,freedownloadmanager.org
 
 # 域名关键字匹配
 DOMAIN-KEYWORD,1e100
